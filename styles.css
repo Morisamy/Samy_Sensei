@@ -66,4 +66,54 @@ body {
   footer p {
     margin: 0;
   }
-  
+  /* Add smooth transitions for links and interactive elements */
+a {
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+a:hover {
+  text-decoration: underline;
+  color: #1d4ed8;
+  transform: scale(1.03);
+}
+
+/* Enhanced module card styles */
+.module-card {
+  background-color: #f9fafb;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.04);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 15px rgba(0,0,0,0.08);
+}
+
+.module-card h3 {
+  margin-top: 0;
+  color: #1e3a8a;
+  font-size: 1.2rem;
+}
+
+.module-card p {
+  font-size: 1rem;
+  color: #374151;
+}
+
+.module-card a {
+  display: inline-block;
+  margin-top: 0.5rem;
+  color: #2563eb;
+  font-weight: 600;
+}
+
+/* Grid for modules */
+.modules {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  margin-top: 1rem;
+}
