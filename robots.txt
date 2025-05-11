@@ -1,0 +1,4 @@
+User-agent: *
+Disallow:
+
+Sitemap: https://morisamy.github.io/Samy_Sensei/sitemap.xml
