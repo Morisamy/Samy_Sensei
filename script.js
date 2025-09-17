@@ -3,21 +3,22 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.querySelector('.slider-button.prev');
     const nextBtn = document.querySelector('.slider-button.next');
     
-    // Smooth scroll function for the slider
-    const scrollSlider = (direction) => {
-        const scrollAmount = slider.offsetWidth / 2;
-        if (direction === 'next') {
-            slider.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-        } else {
-            slider.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-        }
-    };
+    // Get the exact width of one project card, including the gap
+    // This makes sure the slider moves one card at a time
+    const projectCard = document.querySelector('.project');
+    const style = getComputedStyle(projectCard);
+    const cardWidth = projectCard.offsetWidth + parseInt(style.marginLeft) + parseInt(style.marginRight);
+    
+    // The number of visible cards in the slider container
+    const visibleCards = Math.floor(slider.offsetWidth / cardWidth);
 
     nextBtn.addEventListener('click', () => {
-        scrollSlider('next');
+        // Scroll forward by the width of one card
+        slider.scrollBy({ left: cardWidth, behavior: 'smooth' });
     });
 
     prevBtn.addEventListener('click', () => {
-        scrollSlider('prev');
+        // Scroll backward by the width of one card
+        slider.scrollBy({ left: -cardWidth, behavior: 'smooth' });
     });
 });
