@@ -1,141 +1,50 @@
-/*
- * Modern & Dynamic Web Page Style
- * Author: M. Samy
- * Version: 2.0
- * Description: A clean, minimalist dark theme with subtle interactivity.
- */
-
-:root {
-    --primary-color: #00bcd4; /* A vibrant teal for accents */
-    --secondary-color: #f4f6f8;
-    --background-dark: #121212;
-    --surface-color: #1a1a1a;
-    --text-light: #e0e0e0;
-    --text-muted: #a0a0a0;
-    --border-color: #333;
-}
-
-/* General Body and Typography */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: var(--background-dark);
-    color: var(--text-light);
-    margin: 0;
-    padding: 0;
-    line-height: 1.6;
-}
-
-/* Header Section */
-header {
-    background-color: var(--surface-color);
-    padding: 3rem 1rem;
-    text-align: center;
-    border-bottom: 2px solid var(--primary-color);
-    animation: fadeIn 1s ease-in-out;
-}
-
-header h1 {
-    margin: 0;
-    font-size: 3.5rem;
-    color: var(--primary-color);
-    letter-spacing: 2px;
-    text-shadow: 0 0 15px rgba(0, 188, 212, 0.5);
-}
-
-header p {
-    margin-top: 10px;
-    font-size: 1.2rem;
-    color: var(--text-muted);
-}
-
-/* Main Content Container */
-main {
-    max-width: 1100px;
-    margin: 2rem auto;
-    padding: 2.5rem;
-    background-color: var(--surface-color);
-    border-radius: 12px;
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-}
-
-/* Headings and Separators */
-h2 {
-    font-size: 2.2rem;
-    color: var(--text-light);
-    border-bottom: 2px solid var(--border-color);
-    padding-bottom: 0.75rem;
-    margin-top: 2.5rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-}
-
-/* Links and Interactivity */
-a {
-    color: var(--primary-color);
-    text-decoration: none;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-
-a:hover {
-    color: #4a86f7;
-    text-decoration: underline;
-    transform: translateY(-2px);
-}
-
-/* Expertise and Service Boxes (Flexbox for modern layout) */
-.expertise-container, .service-container {
+/* Styles for the Animated Counter Section */
+.stats-container {
     display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-.expertise-box, .service-box {
-    background-color: #2a2a2a;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-    padding: 25px;
-    flex: 1;
-    min-width: 250px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    justify-content: space-around;
+    padding: 2rem 0;
     text-align: center;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.expertise-box:hover, .service-box:hover {
-    transform: translateY(-5px) scale(1.02);
-    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Module and Project Cards (CSS Grid for dynamic layouts) */
-.module-list {
-    list-style: none;
-    padding: 0;
-    display: grid;
-    gap: 1.5rem;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-}
-
-.module-list li {
     background-color: #222;
-    padding: 20px;
-    border: 1px solid var(--border-color);
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border-radius: 12px;
+    margin-top: 2rem;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
-.module-list li:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+.stat-item {
+    flex-basis: 30%;
 }
 
-.project-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
+.counter {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+    margin-bottom: 0.5rem;
+    animation: fadeIn 1.5s ease-in-out;
+}
+
+.stat-item h4 {
+    font-size: 1rem;
+    color: var(--text-light);
+    margin: 0;
+}
+
+/* Styles for the Project Slider */
+.project-slider-container {
+    position: relative;
+    overflow: hidden;
+    padding: 2rem 0;
+}
+
+.project-slider {
+    display: flex;
+    gap: 20px;
+    transition: transform 0.5s ease-in-out;
 }
 
 .project {
+    flex-shrink: 0;
+    width: 300px; /* Adjust width as needed */
     background-color: #222;
     border: 1px solid var(--border-color);
     border-radius: 10px;
@@ -144,49 +53,29 @@ a:hover {
     transition: box-shadow 0.3s ease, transform 0.3s ease;
 }
 
-.project:hover {
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
-    transform: translateY(-5px);
+.slider-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.5);
+    color: var(--text-light);
+    border: none;
+    font-size: 2rem;
+    padding: 10px 15px;
+    cursor: pointer;
+    z-index: 10;
+    border-radius: 50%;
+    transition: background-color 0.3s;
 }
 
-.project img {
-    width: 100%;
-    height: 180px;
-    object-fit: cover;
-    border-bottom: 1px solid var(--border-color);
+.slider-button:hover {
+    background-color: rgba(0, 0, 0, 0.8);
 }
 
-.project img.logo-img {
-    object-fit: contain;
-    background-color: #1a1a1a;
+.slider-button.prev {
+    left: 10px;
 }
 
-.project h3, .project p {
-    padding: 0 20px;
-}
-
-/* Footer Section */
-footer {
-    text-align: center;
-    font-size: 0.9rem;
-    color: var(--text-muted);
-    margin: 2rem auto 1rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--border-color);
-}
-
-/* Keyframe Animations for Entrance */
-@keyframes fadeIn {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-section {
-    animation: fadeIn 1.2s ease-in-out;
+.slider-button.next {
+    right: 10px;
 }
