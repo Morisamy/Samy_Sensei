@@ -3,23 +3,35 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevBtn = document.querySelector('.slider-button.prev');
     const nextBtn = document.querySelector('.slider-button.next');
     
-    // Check if the slider element exists on the page
+    // Check if slider elements exist before proceeding
     if (!slider || !prevBtn || !nextBtn) {
-        return; // Exit if the elements are not found
+        console.warn("Slider elements not found. Skipping slider initialization.");
+        return; 
     }
 
-    // Get the exact width of a single project card, including its gap
-    const projectCard = document.querySelector('.project');
-    const gap = 25; // This value must match the 'gap' in your CSS
-    const cardWidth = projectCard.offsetWidth + gap;
+    // Determine the scroll step
+    // We need to wait for images to load or ensure CSS has rendered
+    // to get accurate width. Using a timeout for robustness.
+    setTimeout(() => {
+        const projectCard = document.querySelector('.project');
+        if (!projectCard) {
+            console.warn("No project cards found in the slider. Cannot calculate scroll step.");
+            return;
+        }
+        
+        // Get the computed style to accurately include margin/gap
+        const style = getComputedStyle(projectCard);
+        // Note: CSS 'gap' is tricky to get dynamically via JS.
+        // It's safer to define a variable in JS that matches the CSS gap.
+        const gap = 25; // This MUST match the 'gap' value in your CSS for .project-slider
+        const scrollStep = projectCard.offsetWidth + gap;
 
-    nextBtn.addEventListener('click', () => {
-        // Move the slider to the left by the width of one card
-        slider.scrollLeft += cardWidth;
-    });
+        nextBtn.addEventListener('click', () => {
+            slider.scrollLeft += scrollStep;
+        });
 
-    prevBtn.addEventListener('click', () => {
-        // Move the slider to the right by the width of one card
-        slider.scrollLeft -= cardWidth;
-    });
+        prevBtn.addEventListener('click', () => {
+            slider.scrollLeft -= scrollStep;
+        });
+    }, 100); // Small delay to ensure all assets/styles are loaded
 });
