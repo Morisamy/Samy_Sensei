@@ -263,6 +263,17 @@ footer {
     }
 }
 
+/* Smooth scrolling for the entire page */
+html {
+    scroll-behavior: smooth;
+}
+
 section {
-    animation: fadeIn 1.2s ease-in-out;
+    /* Animation will be handled by JavaScript for scroll-triggered effects */
+    will-change: opacity, transform;
+}
+
+/* Ensure sections are visible once animated by JavaScript */
+section[style*="opacity: 1"] {
+    animation: none;
 }
