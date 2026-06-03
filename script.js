@@ -147,4 +147,89 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Project cards - static (no parallax effect)
     // Keeping cards static to avoid unwanted movement
+
+    // Live Odoo Profile Scraper (with robust fallback)
+    const odooProfileUrl = "https://www.odoo.com/profile/user/6081254?forum_id=1";
+    const corsProxyUrl = "https://api.allorigins.win/get?url=" + encodeURIComponent(odooProfileUrl);
+
+    async function fetchOdooStats() {
+        try {
+            const response = await fetch(corsProxyUrl);
+            if (!response.ok) throw new Error("CORS Proxy down or network issues");
+            const data = await response.json();
+            if (!data || !data.contents) throw new Error("No data received from proxy");
+
+            const html = data.contents;
+
+            // Check if Odoo returned the standard guest blocking page or login screen
+            if (html.includes("Not have enough karma to view other users") || html.includes("Access Denied") || html.includes("Sign in")) {
+                console.log("Odoo profile page is restricted for guests. Using verified profile details.");
+                const liveStatus = document.getElementById('odoo-live-status');
+                if (liveStatus) {
+                    liveStatus.textContent = "Verified Member";
+                }
+                return;
+            }
+
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(html, 'text/html');
+
+            let xp = "";
+            let rank = "";
+            let rankImg = "";
+
+            // Odoo Profile Karma typically resides in elements containing classes/text with karma or points.
+            // Let's attempt to scrape it.
+            const karmaElements = doc.querySelectorAll('.o_forum_user_bio_info, .o_card_people, [class*="karma"], .badge');
+            for (const el of karmaElements) {
+                const text = el.textContent.trim();
+                if (text.includes("Karma") || text.includes("XP") || /^\d+$/.test(text)) {
+                    const match = text.match(/\d[\d,.]*/);
+                    if (match) {
+                        xp = match[0];
+                        break;
+                    }
+                }
+            }
+
+            // Odoo ranks are usually represented by badges/images inside the profile
+            const rankImgEl = doc.querySelector('img[src*="gamification.karma.rank"]');
+            if (rankImgEl) {
+                rankImg = rankImgEl.src;
+                rank = rankImgEl.alt || "";
+            }
+
+            // Update UI components if matches found
+            if (xp) {
+                const xpTextEl = document.getElementById('odoo-xp-text');
+                if (xpTextEl) xpTextEl.textContent = `${xp} XP`;
+            }
+            if (rank) {
+                const rankTextEl = document.getElementById('odoo-rank-text');
+                if (rankTextEl) rankTextEl.textContent = rank;
+            }
+            if (rankImg) {
+                const rankImgEl = document.getElementById('odoo-rank-img');
+                if (rankImgEl) rankImgEl.src = rankImg;
+            }
+
+            const liveStatus = document.getElementById('odoo-live-status');
+            if (liveStatus) {
+                liveStatus.textContent = "Live Update";
+                const pulseDot = document.querySelector('.pulse-dot');
+                if (pulseDot) {
+                    pulseDot.style.backgroundColor = '#00bcd4';
+                    pulseDot.style.boxShadow = '0 0 0 0 rgba(0, 188, 212, 0.7)';
+                }
+            }
+        } catch (error) {
+            console.log("Using verified profile details (Live feed CORS/Access Restricted):", error.message);
+            const liveStatus = document.getElementById('odoo-live-status');
+            if (liveStatus) {
+                liveStatus.textContent = "Verified Member";
+            }
+        }
+    }
+
+    fetchOdooStats();
 });
